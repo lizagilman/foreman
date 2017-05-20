@@ -54,38 +54,33 @@ module LayoutHelper
   end
 
   def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"col-md-7")
-    options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
-    options[:inner_window] ||= 2
-    options[:outer_window] ||= 0
-    options[:previous_label] ||= _('&laquo;')
-    options[:next_label] ||= _('&raquo;')
-    super collection, options
-  end
-
-  def page_entries_info(collection, options = {})
-    html = if collection.total_entries == 0
-             _("No entries found")
-           else
-             if collection.total_pages < 2
-               n_("Displaying <b>%{count}</b> entry", "Displaying <b>all %{count}</b> entries", collection.total_entries) % {:count => collection.total_entries}
-             else
-               _("Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total") %
-                   { :from => collection.offset + 1, :to => collection.offset + collection.length, :count => collection.total_entries }
-             end
-           end.html_safe
-    html += options[:more].html_safe if options[:more]
-    content_tag(:div, :class => "col-md-5 hidden-xs") do
-      content_tag(:div, html, :class => "pull-left pull-bottom darkgray pagination")
-    end
+    defaults = {
+      renderer: "WillPaginate::ActionView::PatternflyLinkRenderer",
+      page_links: false,
+      container: false,
+      inner_window: options[:inner_window] ||= 0,
+      outer_window: options[:outer_window] ||= 0,
+      previous_label: options[:previous_label] ||= icon_text("angle-left", "", :kind => "fa"),
+      next_label: options[:next_label] ||= icon_text("angle-right", "", :kind => "fa"),
+      last_label: options[:last_label] ||= icon_text("angle-double-right", "", :kind => "fa"),
+      first_label: options[:first_label] ||= icon_text("angle-double-left", "", :kind => "fa")
+    }
+    super(collection, defaults.merge(options))
   end
 
   def will_paginate_with_info(collection = nil, options = {})
-    content_tag(:div, :id => "pagination", :class => "row",
+    return if Setting[:entries_per_page] >= collection.total_entries
+
+    content_tag(:form, :id => "pagination", :class => "content-view-pf-pagination table-view-pf-pagination clearfix",
                 :data => ({'count' => collection.total_entries, 'per-page' => per_page(collection)})) do
-      page_entries_info(collection, options) +
-        will_paginate(collection, options)
+      render('common/pagination', collection: collection, options: options)
     end
+  end
+
+  def per_page_options(options = [5, 10, 15, 25, 50])
+    options << Setting[:entries_per_page].to_i
+    options << params[:per_page].to_i unless params[:per_page].blank?
+    options.uniq.sort
   end
 
   def icon_text(i, text = "", opts = {})
