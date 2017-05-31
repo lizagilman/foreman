@@ -36,5 +36,16 @@ module BasicRestResponseTest
         end
       end
     end
+
+    def per_page_param_test(model)
+      test "should have per page param" do
+        entries_per_page = Setting[:entries_per_page]
+        FactoryGirl.create_list(model, entries_per_page+1)
+        get :index, {per_page: entries_per_page-1}, set_session_user
+        assert_response :success
+        per_page_results = css_select('.pagination-pf-items-current')
+        assert_match "1-"+(entries_per_page-1).to_s, per_page_results.first.content
+        end
+    end
   end
 end

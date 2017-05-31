@@ -3,6 +3,8 @@ require 'test_helper'
 class HostsControllerTest < ActionController::TestCase
   setup :initialize_host
 
+  per_page_param_test(:host)
+
   def host_attributes(host)
     known_attrs = HostsController.host_params_filter.accessible_attributes(HostsController.parameter_filter_context)
     host.attributes.except('id', 'created_at', 'updated_at').slice(*known_attrs)

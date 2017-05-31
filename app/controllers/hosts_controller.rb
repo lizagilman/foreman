@@ -45,14 +45,14 @@ class HostsController < ApplicationController
 
   def index(title = nil)
     begin
-      search = action_scope_for(:index, resource_base_with_search)
+     search = action_scope_for(:index, resource_base_search_and_page)
     rescue => e
       error e.to_s
       search = resource_base.search_for ''
     end
     respond_to do |format|
       format.html do
-        @hosts = search.includes(included_associations).paginate(:page => params[:page])
+        @hosts = search.includes(included_associations).paginate(:page => params[:page], :per_page => params[:per_page])
         # SQL optimizations queries
         @last_report_ids = ConfigReport.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
         @last_reports = ConfigReport.where(:id => @last_report_ids.values)

@@ -8,6 +8,7 @@ class ArchitecturesControllerTest < ActionController::TestCase
   basic_index_test
   basic_new_test
   basic_edit_test
+  per_page_param_test(:architecture)
 
   def test_new_submit_button_id
     get :new, {}, set_session_user
