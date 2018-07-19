@@ -44,6 +44,19 @@ module LayoutHelper
     end
   end
 
+  def resource_title(resource_name)
+    case resource_name
+      when 'operatingsystem'
+        _('Operating Systems')
+      when 'hostgroup'
+        _('Host Groups')
+      when 'usergroup'
+        _('User Groups')
+      else
+        _(resource_name.pluralize.titleize)
+    end
+  end
+
   def base_errors_for(obj)
     if obj.errors[:base].present?
       alert :header => _("Unable to save"),
