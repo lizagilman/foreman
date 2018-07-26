@@ -1,3 +1,4 @@
+
 module LayoutHelper
   def title(page_title, page_header = nil)
     content_for(:title, page_title.to_s)
@@ -44,18 +45,26 @@ module LayoutHelper
     end
   end
 
-  def resource_title(resource_name)
-    case resource_name
-      when 'operatingsystem'
-        _('Operating Systems')
-      when 'hostgroup'
-        _('Host Groups')
-      when 'usergroup'
-        _('User Groups')
-      else
-        _(resource_name.pluralize.titleize)
-    end
-  end
+  # def resource_title(resource_name)
+  #   # binding.pry
+  #   case resource_name
+  #     when 'operatingsystem'
+  #       _('Operating Systems')
+  #     when 'hostgroup'
+  #       _('Host Groups')
+  #     when 'usergroup'
+  #       _('User Groups')
+  #     when 'auth_source_ldaps'
+  #       _('LDAP Authentication')
+  #     when 'puppetclasses'
+  #       _('Classes')
+  #     when 'puppetclass_lookup_keys'
+  #       _('Smart Class Parameters')
+  #
+  #     else
+  #       _(resource_name.pluralize.titleize)
+  #   end
+  # end
 
   def base_errors_for(obj)
     if obj.errors[:base].present?

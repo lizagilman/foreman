@@ -1,7 +1,7 @@
 class BreadcrumbsOptions
   # TODO: extract URL handing from menu/item and use it here too
   include Rails.application.routes.url_helpers
-  include LayoutHelper
+  include Menu
 
   def initialize(page_header, controller, action_name, options = {})
     @page_header = page_header
@@ -31,7 +31,7 @@ class BreadcrumbsOptions
     end
 
     {
-      caption: resource_title(resource_name),
+      caption: _(Menu::Manager.get_resource_caption(controller.controller_name.to_s.downcase.pluralize.to_sym)),
       url: resource_path(class_name) || resource_path(resource_name)
     }
   end
