@@ -7,6 +7,7 @@ import notifications from './notifications/';
 import toasts from './toasts';
 import { reducers as passwordStrengthReducers } from '../../components/PasswordStrength';
 import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBar';
+import { reducers as ovirtStorageContainerReducers } from '../../components/hosts/storage/ovirt';
 import factChart from './factCharts/';
 
 export function combineReducersAsync(asyncReducers) {
@@ -21,6 +22,7 @@ export function combineReducersAsync(asyncReducers) {
     ...breadcrumbBarReducers,
     ...asyncReducers,
     factChart,
+    ...ovirtStorageContainerReducers,
   });
 }
 

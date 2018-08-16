@@ -1,10 +1,12 @@
 let path = require('path');
 
 // Use storybook's default configuration with our customizations
-module.exports = (baseConfig, env, defaultConfig) => {
+module.exports = (baseConfig, env, ) => {
+
+
 
   // overwrite storybook's default import rules
-  defaultConfig.module.rules = [
+  baseConfig.module.rules = [
     {
       test: /\.js$/,
       exclude: /node_modules/,
@@ -39,5 +41,5 @@ module.exports = (baseConfig, env, defaultConfig) => {
     }
   ]
 
-  return defaultConfig;
+  return baseConfig;
 };

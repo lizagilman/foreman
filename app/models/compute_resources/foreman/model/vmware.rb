@@ -47,7 +47,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build, :image]
+      [:build, :image, :new_volume]
     end
 
     def vms(opts = {})

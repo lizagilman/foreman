@@ -1,18 +1,24 @@
 
-<%= text_f f,:size_gb, :label => _('Size (GB)'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
-<%= f.hidden_field :size_gb if !new_vm %>
-<%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
+<%#= text_f f,:size_gb, :label => _('Size (GB)'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
+<%#= f.hidden_field :size_gb if !new_vm %>
+<%#= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
              { }, :label => _('Storage domain'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
-<%= f.hidden_field :storage_domain if !new_vm %>
-<%= f.hidden_field :id %>
+<%#= f.hidden_field :storage_domain if !new_vm %>
+<%#= f.hidden_field :id %>
 
-<%= checkbox_f f, :preallocate, { :checked => f.object.sparse == 'false', :help_inline => _('Uses thin provisioning if unchecked'), :label => _('Preallocate disk'), :label_size => "col-md-2" } %>
-<%= checkbox_f f, :wipe_after_delete, { :checked => f.object.wipe_after_delete == 'true', :label => _('Wipe disk after delete'), :label_size => "col-md-2" } %>
-<%= select_f f, :interface, [OpenStruct.new({:id =>'virtio', :name =>'VirtIO'}), OpenStruct.new({:id =>'virtio_scsi', :name =>'VirtIO SCSI'}), OpenStruct.new({:id =>'ide', :name =>'IDE'})],
+<%#= checkbox_f f, :preallocate, { :checked => f.object.sparse == 'false', :help_inline => _('Uses thin provisioning if unchecked'), :label => _('Preallocate disk'), :label_size => "col-md-2" } %>
+<%#= checkbox_f f, :wipe_after_delete, { :checked => f.object.wipe_after_delete == 'true', :label => _('Wipe disk after delete'), :label_size => "col-md-2" } %>
+<%#= select_f f, :interface, [OpenStruct.new({:id =>'virtio', :name =>'VirtIO'}), OpenStruct.new({:id =>'virtio_scsi', :name =>'VirtIO SCSI'}), OpenStruct.new({:id =>'ide', :name =>'IDE'})],
              :id, :name, { :include_blank => true }, :label => _('Disk interface'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
-<%= f.hidden_field :interface if !new_vm %>
+<%#= f.hidden_field :interface if !new_vm %>
 
-<%= field(f, :bootable, :label => _('Bootable'), :label_size => "col-md-2") do
+<%#= field(f, :bootable, :label => _('Bootable'), :label_size => "col-md-2") do
     radio_button_f f, :bootable, {:disabled => !new_vm, :value=>'true', :checked => (f.object.bootable == 'true'), :onclick => 'tfm.computeResource.ovirt.bootableRadio(this)',
     :text => _('Only one volume can be bootable')}
 end %>
+
+
+
+<div id="ovirt_storage"></div>
+
+<%= mount_react_component('OvirtStorageContainer', '#ovirt_storage', {volumes: ['test1']}.to_json) %>

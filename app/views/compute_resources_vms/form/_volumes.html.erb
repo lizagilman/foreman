@@ -1,3 +1,4 @@
+
 <% if compute_resource.capable?(:new_volume) || provider_partial_exist?(compute_resource, 'volume') %>
   <% volume = compute_resource.new_volume %>
     <%= field_set_tag _("Storage"), :id => "storage_volumes" do %>
@@ -21,4 +22,6 @@
         <%= alert :text => _('Unable to define volumes:') + ' ' + compute_resource.new_volume_errors.join(', '), :close => false, :class => 'alert-warning', :header => '' %>
       <% end %>
   <% end %>
+<% else %>
+
 <% end %>
